@@ -1,27 +1,30 @@
 import discord
-import os
+from discord.ext import commands, tasks
+import datetime
+
+bot = commands.Bot("!")
 
 
-class MyClient(discord.Client):
-    async def on_ready(self):
-        print('Logged on as {0}!'.format(self.user))
-
-    async def on_message(self, message):
-        print('Message from {0.author}: {0.content}'.format(message))
-        if message.content == '?regras':
-            await message.channel.send(f'{message.author.name} Regras: {os.linesep} NÃO HÁ REGRAS')
-        elif message.content == '?privado':
-            await message.author.send(f'Mensagem Privada')
-
-    async def on_member_join(self, member):
-        guild = member.guild
-        if guild.system.channel is not None:
-            mensagem = f'Um(a) tal de {member.mention} entrou no {guild.name}!'
-            await guild.system_channel.send(mensagem)
+@bot.event
+async def on_ready():
+    channel = bot.get_channel(1023995162973708301)
+    await channel.send('Olá, seja bem vindo!')
+    await channel.send('Eu sou o DBot1.')
+    current_time.start()
 
 
-intents = discord.Intents.default()
-intents.members = True
+@tasks.loop(hours=1)
+async def current_time():
+    now = datetime.datetime.now()
+    now = now.strftime("%d/%m/%Y às %H:%M:%S")
+    channel = bot.get_channel(1023995162973708301)
+    await channel.send("Data e hora: " + now)
 
-client = MyClient(intents=intents)
-client.run('MTAyNDAwMTg3OTc3ODI2MzE4MQ.Gw04Hw.XIbIx94-ZOxR_Fl9WF07D6FohXl7-hRwCg_2ZQ')
+# @bot.command(name="data")
+# async def current_time():
+#     now = datetime.datetime.now()
+#     now = now.strftime("%d/%m/%Y às %H:%M:%S")
+#     channel = bot.get_channel(1023995162973708301)
+#     await channel.send("Data e hora: " + now)
+
+bot.run('MTAyNDA3NjY5NzI4MjI4MTU0Mg.GITZe8.i_5GAvFe4Uof3Mxr-yw-CHPO4wSeZFDDZHuvwQ')
