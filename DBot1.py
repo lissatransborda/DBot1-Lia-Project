@@ -21,6 +21,7 @@ bot = commands.Bot("!")
 async def on_ready():
     channel = bot.get_channel(1023995162973708301)
     print(f"Estou pronto {bot.user}")
+    advice.start()
     await channel.send('Olá, eu sou o DBot1.')
 
 @bot.command(name="oi")
@@ -73,23 +74,21 @@ def get_nested(data, *args):
             return value if len(args) == 1 else get_nested(value, *args[1:])
 
 
-@bot.command("advice")
-async def advice(ctx):
+# @bot.command("advice")
+# async def advice(ctx):
+#     response = requests.get(f"https://api.adviceslip.com/advice")
+#     data = response.json()
+#     advice = get_nested(data, "slip", "advice")
+#     await ctx.send(f"{advice}")
+
+
+@tasks.loop(minutes=1)
+async def advice():
     response = requests.get(f"https://api.adviceslip.com/advice")
     data = response.json()
     advice = get_nested(data, "slip", "advice")
-    await ctx.send(f"{advice}")
-
-
-# @tasks.loop(seconds=3)
-# async def advice(ctx):
-#     response = requests.get(
-#         f"https://api.adviceslip.com/advice"
-#     )
-#     data = response.json()
-#     advice = data.get("advice")
-#     await ctx.send(f"Sorte de hoje: {advice}")
-
+    channel = bot.get_channel(1023995162973708301)
+    await channel.send(f"{advice}")
 
 
 
