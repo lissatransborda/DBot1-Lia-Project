@@ -92,6 +92,6 @@ async def advice():
 
 
 
-bot.run('MTAyNDA3NjY5NzI4MjI4MTU0Mg.G3XgRN.ZIwBR8dpX7v4A11eRuJws-qinpIo0hB07HsnsI')
+bot.run('token')
 
 
