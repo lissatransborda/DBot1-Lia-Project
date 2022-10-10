@@ -5,15 +5,11 @@ from discord.ext import commands, tasks
 import datetime
 import requests
 import numpy as np
+from dotenv import load_dotenv
 
-'''
-Versões instaladas:
-discord-ext-bot==1.0.1
-discord.py==1.7.3
-numpy==1.23.3
-requests==2.27.1
-Python 3.10.4
-'''
+load_dotenv()
+
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
 bot = commands.Bot("!")
 
@@ -90,8 +86,5 @@ async def advice():
     channel = bot.get_channel(1023995162973708301)
     await channel.send(f"{advice}")
 
-
-
-
-bot.run('MTAyNDA3NjY5NzI4MjI4MTU0Mg.G3XgRN.ZIwBR8dpX7v4A11eRuJws-qinpIo0hB07HsnsI')
+bot.run(BOT_TOKEN)
 
